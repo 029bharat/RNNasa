@@ -6,7 +6,6 @@
  * @flow strict-local
  */
 
-import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,61 +13,59 @@ import {
   View,
   Text,
   StatusBar,
+  TextInput,
+  TouchableOpacity,ActivityIndicator, 
 } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export default App = () => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const apiKey=`2TSOT2k8NuqhNCO9gFx7zkNdjhgbSddv6zw11DTx`
+  useEffect(() => {
+    fetch( `https://api.nasa.gov/neo/rest/v1/neo/${asteroidId}?api_key=${apiKey}`)
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, [asteroidId]);
 
-const App: () => React$Node = () => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <View style={{ flex: 1, padding: 24 }}>
+      {isLoading ? <ActivityIndicator/> : (
+        <View>
+      <Text style={{fontSize:'20',}}>Enter Asteroid ID</Text>
+      <TextInput
+      value={'1000'}
+      placeholder={"numbers accepted"}
+      maxLength={100}
+      />
+      <TouchableOpacity onPress={()=>{}}>
+        <View>
+          <Text>Submit</Text>
+        </View>
+      </TouchableOpacity></View>
+      )}
+    </View>
+  );
+};
+
+
+const App= () => {
+  return (
+    <View>
+      <Text style={{fontSize:'20',}}>Enter Asteroid ID</Text>
+      <TextInput
+      value={'1000'}
+      placeholder={"numbers accepted"}
+      maxLength={100}
+      />
+      <TouchableOpacity onPress={()=>{}}>
+        <View>
+          <Text>Submit</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 };
 
